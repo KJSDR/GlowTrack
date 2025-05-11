@@ -14,7 +14,15 @@ db = SQLAlchemy(app)
 # Authentication
 ###########################
 
-# TODO: Add authentication setup code here!
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'auth.login'
+login_manager.login_message = 'Please log in to access this page.'
+login_manager.login_message_category = 'info'
 
+bcrypt = Bcrypt(app)
 
-
+@login_manager.user_loader
+def load_user(user_id):
+    from app.models import User
+    return User.query.get(int(user_id))
