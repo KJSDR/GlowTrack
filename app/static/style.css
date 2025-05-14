@@ -71,8 +71,8 @@ body {
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 35px; /* Set to your Hello Kitty image width */
-    height: 35px; /* Set to your Hello Kitty image height */
+    width: 40px; /* Set to your Hello Kitty image width */
+    height: 40px; /* Set to your Hello Kitty image height */
     background-image: url('hellokittyimg.png'); /* Path to your Hello Kitty image */
     background-size: contain;
     background-repeat: no-repeat;
