@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping List - GlowTrack{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1 class="mb-4">Shopping List</h1>
+        
+        {% if shopping_list %}
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Priority</th>
+                                    <th>Product</th>
+                                    <th>Brand</th>
+                                    <th>Notes</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in shopping_list %}
+                                    <tr>
+                                        <td>
+                                            <form action="{{ url_for('main.toggle_priority', id=item.id) }}" method="POST" class="d-inline">
+                                                <button type="submit" class="btn btn-sm {% if item.priority == 3 %}btn-danger{% elif item.priority == 2 %}btn-warning{% else %}btn-success{% endif %} rounded-pill">
+                                                    {% if item.priority == 3 %}
+                                                        <i class="fa-solid fa-arrow-up me-1"></i>High
+                                                    {% elif item.priority == 2 %}
+                                                        <i class="fa-solid fa-minus me-1"></i>Medium
+                                                    {% else %}
+                                                        <i class="fa-solid fa-arrow-down me-1"></i>Low
+                                                    {% endif %}
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td>{{ item.product_name }}</td>
+                                        <td>{{ item.brand }}</td>
+                                        <td>{{ item.notes }}</td>
+                                        <td class="text-end">
+                                            <form action="{{ url_for('main.delete_shopping_item', id=item.id) }}" method="POST" class="d-inline">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to remove this item?')">
+                                                    <i class="fa-solid fa-check me-1"></i>Purchased
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-info">
+                <i class="fa-solid fa-lightbulb me-2"></i>
+                <strong>Tip:</strong> Click on the priority button to cycle through priority levels. Mark items as purchased when you've bought them.
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <i class="fa-solid fa-info-circle me-2"></i>
+                Your shopping list is empty. Add items using the form on the right or from your product pages.
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm sticky-top" style="top: 20px;">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fa-solid fa-plus me-2"></i>Add to Shopping List
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('main.add_shopping_item') }}">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.product_name.label(class="form-label") }}
+                        {% if form.product_name.errors %}
+                            {{ form.product_name(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.product_name.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.product_name(class="form-control", placeholder="e.g. Vitamin C Serum") }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.brand.label(class="form-label") }}
+                        {% if form.brand.errors %}
+                            {{ form.brand(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.brand.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.brand(class="form-control", placeholder="e.g. The Ordinary") }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.notes.label(class="form-label") }}
+                        {% if form.notes.errors %}
+                            {{ form.notes(class="form-control is-invalid", rows=2) }}
+                            <div class="invalid-feedback">
+                                {% for error in form.notes.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.notes(class="form-control", rows=2, placeholder="Optional notes") }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.priority.label(class="form-label") }}
+                        {% if form.priority.errors %}
+                            {{ form.priority(class="form-select is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.priority.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.priority(class="form-select") }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card border-0 shadow-sm mt-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="fa-solid fa-clipboard-list me-2"></i>Shopping Tips
+                </h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <i class="fa-solid fa-tag me-2 text-muted"></i>
+                        Look for sales and special offers
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fa-solid fa-face-smile me-2 text-muted"></i>
+                        Check for samples before buying full-size
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fa-solid fa-recycle me-2 text-muted"></i>
+                        Check if packaging is recyclable
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fa-solid fa-calendar-days me-2 text-muted"></i>
+                        Verify expiration dates before purchasing
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
