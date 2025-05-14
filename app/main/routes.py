@@ -8,6 +8,12 @@ from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
 import uuid
 
+def ensure_upload_folder_exists():
+    """Make sure the upload folder exists."""
+    upload_folder = os.path.join('app', 'static', 'uploads')
+    os.makedirs(upload_folder, exist_ok=True)
+    return upload_folder
+
 main = Blueprint('main', __name__)
 
 @main.route('/')

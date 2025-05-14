@@ -1,12 +1,18 @@
-"""Initialize Config class to access environment variables."""
-from dotenv import load_dotenv
+"""Flask configuration."""
 import os
 
-load_dotenv()
+class Config:
+    """Set Flask configuration from environment variables."""
 
-class Config(object):
-    """Set environment variables."""
-
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
-    SECRET_KEY = os.getenv('SECRET_KEY')
+    # General Config
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'your-secret-key-here')
+    
+    # Database Config
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///glowtrack.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    
+    # Upload folder for product images
+    UPLOAD_FOLDER = os.path.join('app', 'static', 'uploads')
+    
+    # Make sure the upload folder exists
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
