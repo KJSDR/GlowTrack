@@ -5,17 +5,15 @@ from app.models import User, Product, Category, ShoppingListItem
 from app.auth.routes import auth
 from app.main.routes import main
 
+# Register blueprints only once
 app.register_blueprint(auth, url_prefix='/auth')
 app.register_blueprint(main)
 
-# Create all tables
-@app.before_first_request
-def create_tables():
+# Create tables and add default categories
+with app.app_context():
     db.create_all()
-
-# Add default categories if none exist
-@app.before_first_request
-def add_default_categories():
+    
+    # Add default categories if none exist
     if Category.query.count() == 0:
         categories = [
             Category(name='Cleansers', description='Face wash, makeup removers, and cleansing balms'),
@@ -48,3 +46,7 @@ def add_default_categories():
             db.session.add(category)
         
         db.session.commit()
+        print("Added default categories.")
+
+# Set the application's name
+app.config['APP_NAME'] = 'GlowTrack'
