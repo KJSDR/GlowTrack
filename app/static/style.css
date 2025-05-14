@@ -1,96 +1,219 @@
-/* GlowTrack - Custom Styles */
+/* GlowTrack - Hello Kitty Theme */
 
 /* Global styles */
 body {
-    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Comic Sans MS', 'Comic Neue', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     color: #333;
-    background-color: #f8f9fa;
+    background-color: #fff8fa;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background-image: url('https://img.freepik.com/premium-vector/cute-little-pink-cat-baby-seamless-pattern_513640-4032.jpg?semt=ais_hybrid&w=740');
+    background-repeat: repeat;
+    background-size: 100px;
+    background-attachment: fixed;
 }
 
 .container {
     max-width: 1200px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    border: 2px solid #ff66a3;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(255, 102, 163, 0.2);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Custom nav container for Hello Kitty theme */
+.kitty-nav-container, .kitty-footer-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
 .footer {
     margin-top: auto;
-}
-
-/* Custom colors */
-.btn-primary, .bg-primary {
-    background-color: #9c27b0 !important;
-    border-color: #9c27b0 !important;
-}
-
-.btn-outline-primary {
-    color: #9c27b0 !important;
-    border-color: #9c27b0 !important;
-}
-
-.btn-outline-primary:hover {
-    background-color: #9c27b0 !important;
+    background-color: #ff66a3 !important;
     color: white !important;
-}
-
-.text-primary {
-    color: #9c27b0 !important;
-}
-
-.border-primary {
-    border-color: #9c27b0 !important;
-}
-
-/* Card styles */
-.card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1) !important;
-}
-
-.card-img-top {
-    border-top-left-radius: calc(0.375rem - 1px);
-    border-top-right-radius: calc(0.375rem - 1px);
+    border-top: 3px dotted #ffffff;
+    text-align: center;
 }
 
 /* Navbar styles */
-.navbar-dark.bg-primary {
-    background-color: #9c27b0 !important;
+.navbar {
+    background-color: #ff66a3 !important;
+    border-bottom: 3px dotted #ffffff;
+    padding: 12px 0;
 }
 
 .navbar-brand {
     font-weight: 600;
     letter-spacing: 0.5px;
+    font-family: 'Comic Sans MS', 'Comic Neue', cursive;
+    color: white !important;
+}
+
+/* Updated navbar brand to use a real Hello Kitty image */
+.navbar-brand {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-family: 'Comic Sans MS', 'Comic Neue', cursive;
+    color: white !important;
+    position: relative;
+    padding-left: 40px; /* Adjust based on your Hello Kitty image size */
+}
+
+.navbar-brand::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 35px; /* Set to your Hello Kitty image width */
+    height: 35px; /* Set to your Hello Kitty image height */
+    background-image: url('hellokittyimg.png'); /* Path to your Hello Kitty image */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .nav-link {
     font-weight: 500;
+    margin: 0 5px;
+    color: white !important;
+}
+
+.nav-link:hover {
+    background-color: #ff99c2;
+    border-radius: 20px;
+}
+
+.navbar-toggler {
+    border-color: white;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.dropdown-menu {
+    background-color: #ffecf2;
+    border: 2px solid #ff66a3;
+    border-radius: 15px;
+}
+
+.dropdown-item {
+    color: #ff66a3;
+}
+
+.dropdown-item:hover {
+    background-color: #ff99c2;
+    color: white;
+}
+
+/* Custom Hello Kitty colors */
+.btn-primary, .bg-primary {
+    background-color: #ff66a3 !important;
+    border-color: #ff66a3 !important;
+}
+
+.btn-outline-primary {
+    color: #ff66a3 !important;
+    border-color: #ff66a3 !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: #ff66a3 !important;
+    color: white !important;
+}
+
+.text-primary {
+    color: #ff66a3 !important;
+}
+
+.border-primary {
+    border-color: #ff66a3 !important;
+}
+
+/* Updated heading style to use a custom bow image */
+h1, h2 {
+    position: relative;
+    padding-left: 35px; /* Adjust based on your bow image size */
+}
+
+h1::before, h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px; /* Set to your bow image width */
+    height: 30px; /* Set to your bow image height */
+    background-image: url('https://i.pinimg.com/736x/b2/0c/c5/b20cc5eb9a81d7d2ccb044bfaa8504c5.jpg'); /* Path to your bow image */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+h1, h2, h3, h4, h5 {
+    color: #ff66a3;
+    font-family: 'Comic Sans MS', 'Comic Neue', cursive;
+}
+
+/* Card styles */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 15px;
+    border: 2px solid #ffb8d1;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(255, 102, 163, 0.3) !important;
+}
+
+.card-header {
+    background-color: #ff66a3 !important;
+    color: white !important;
+    border-bottom: 2px dotted #ffffff;
+}
+
+.card-img-top {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }
 
 /* Form styles */
+.form-control, .form-select {
+    border: 2px solid #ffb8d1;
+    border-radius: 20px;
+}
+
 .form-control:focus, .form-select:focus {
-    border-color: #ce93d8;
-    box-shadow: 0 0 0 0.25rem rgba(156, 39, 176, 0.25);
+    border-color: #ff66a3;
+    box-shadow: 0 0 0 0.25rem rgba(255, 102, 163, 0.25);
 }
 
 .form-label {
     font-weight: 500;
+    color: #ff66a3;
 }
 
 /* Button styles */
 .btn {
     font-weight: 500;
     letter-spacing: 0.3px;
+    border-radius: 20px;
+    padding: 8px 20px;
 }
 
 /* Alert styles */
 .alert {
-    border: none;
-    border-radius: 0.375rem;
+    border: 2px dashed #ffb8d1;
+    border-radius: 15px;
 }
 
 /* Feature icon */
@@ -102,39 +225,92 @@ body {
     height: 3rem;
     margin-bottom: 1rem;
     font-size: 1.5rem;
-    border-radius: 0.5rem;
-}
-
-/* Dashboard cards */
-.dashboard-card {
-    border-radius: 0.5rem;
-    border: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    background-color: #ff99c2 !important;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: #ffecf2;
+    border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #ce93d8;
-    border-radius: 4px;
+    background: #ff99c2;
+    border-radius: 10px;
+    border: 2px solid #ffecf2;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #9c27b0;
+    background: #ff66a3;
 }
 
 /* Product card styles */
 .product-card .badge {
     font-size: 0.75rem;
     font-weight: 500;
+    border-radius: 10px;
+    padding: 5px 10px;
+}
+
+/* Table styles */
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table thead {
+    background-color: #ffecf2;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #fff0f5;
+}
+
+/* Custom additions for Hello Kitty theme */
+.btn::after {
+    content: " ♡";
+}
+
+.card-footer {
+    background-color: #ffecf2 !important;
+    border-top: 2px dotted #ffb8d1;
+}
+
+/* Add rounded corners to images */
+img {
+    border-radius: 15px;
+}
+
+/* Add kawaii icons to list items */
+ul li {
+    list-style-type: none;
+    position: relative;
+}
+
+ul li:before {
+    content: "🌸";
+    position: absolute;
+    left: -25px;
+}
+
+/* Style for modal */
+.modal-content {
+    border: 3px solid #ff66a3;
+    border-radius: 20px;
+}
+
+.modal-header {
+    background-color: #ff66a3;
+    color: white;
+    border-bottom: 2px dotted white;
+    border-top-left-radius: 17px;
+    border-top-right-radius: 17px;
 }
 
 /* Responsive adjustments */
@@ -152,12 +328,84 @@ body {
         height: 2.5rem;
         font-size: 1.25rem;
     }
+    
+    .container, .kitty-nav-container, .kitty-footer-container {
+        padding: 10px;
+    }
 }
 
-/* Footer styles */
-.footer {
-    padding: 1.5rem 0;
-    margin-top: 3rem;
-    background-color: #f8f9fa;
-    border-top: 1px solid #e9ecef;
+/* Hello Kitty bow for checkbox and radio inputs */
+input[type="checkbox"], input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border: 2px solid #ffb8d1;
+    border-radius: 5px;
+    display: inline-block;
+    position: relative;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+input[type="radio"] {
+    border-radius: 50%;
+}
+
+input[type="checkbox"]:checked, input[type="radio"]:checked {
+    background-color: #ff66a3;
+}
+
+input[type="checkbox"]:checked::after {
+    content: "🎀";
+    font-size: 12px;
+    position: absolute;
+    top: -2px;
+    left: 2px;
+    color: white;
+}
+
+input[type="radio"]:checked::after {
+    content: "♡";
+    font-size: 12px;
+    position: absolute;
+    top: 0;
+    left: 4px;
+    color: white;
+}
+
+/* Fix for list items in navigation */
+.navbar-nav li:before,
+.dropdown-menu li:before {
+    content: none !important;
+}
+
+/* Fix for dropdown menu */
+.dropdown-menu li {
+    position: relative;
+    padding-left: 15px;
+}
+
+.dropdown-menu li a:before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 8px;
+    font-size: 12px;
+}
+
+/* Force white text in navbar */
+.navbar .nav-link,
+.navbar .navbar-brand,
+.navbar .navbar-toggler,
+.navbar .dropdown-toggle {
+    color: white !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Force white text in footer */
+.footer, .footer * {
+    color: white !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
