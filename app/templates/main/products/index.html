@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}My Products - GlowTrack{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>My Products</h1>
+    <a href="{{ url_for('main.add_product') }}" class="btn btn-primary">
+        <i class="fa-solid fa-plus me-2"></i>Add Product
+    </a>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-search"></i></span>
+                    <input type="text" id="productSearch" class="form-control" placeholder="Search products...">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <select id="categoryFilter" class="form-select">
+                    <option value="">All Categories</option>
+                    <!-- Categories will be populated via JavaScript -->
+                </select>
+            </div>
+            <div class="col-md-4">
+                <select id="expirationFilter" class="form-select">
+                    <option value="">All Products</option>
+                    <option value="expiring-soon">Expiring Soon (30 days)</option>
+                    <option value="expired">Expired</option>
+                    <option value="not-expired">Not Expired</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if products %}
+    <div class="row" id="productContainer">
+        {% for product in products %}
+            <div class="col-md-4 mb-4 product-card" 
+                 data-category="{{ product.category.name if product.category else 'Uncategorized' }}"
+                 data-expired="{{ 'true' if product.is_expired() else 'false' }}"
+                 data-expiring-soon="{{ 'true' if product.days_until_expiration() and product.days_until_expiration() <= 30 and product.days_until_expiration() >= 0 else 'false' }}">
+                <div class="card h-100 {% if product.is_expired() %}border-danger{% elif product.days_until_expiration() and product.days_until_expiration() <= 30 and product.days_until_expiration() >= 0 %}border-warning{% else %}border-primary{% endif %}">
+                    {% if product.image_url %}
+                        <img src="{{ url_for('static', filename='uploads/' + product.image_url) }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <i class="fa-solid fa-pump-soap fa-3x text-secondary"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ product.brand }}</h6>
+                        
+                        {% if product.category %}
+                            <span class="badge bg-info text-white">{{ product.category.name }}</span>
+                        {% endif %}
+                        
+                        {% if product.is_expired() %}
+                            <span class="badge bg-danger">Expired</span>
+                        {% elif product.days_until_expiration() and product.days_until_expiration() <= 30 and product.days_until_expiration() >= 0 %}
+                            <span class="badge bg-warning text-dark">Expires in {{ product.days_until_expiration() }} days</span>
+                        {% endif %}
+                        
+                        <p class="card-text mt-2">
+                            {% if product.description %}
+                                {{ product.description|truncate(100) }}
+                            {% else %}
+                                <span class="text-muted">No description</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('main.view_product', id=product.id) }}" class="btn btn-sm btn-outline-primary">
+                                <i class="fa-solid fa-eye me-1"></i> View
+                            </a>
+                            <a href="{{ url_for('main.edit_product', id=product.id) }}" class="btn btn-sm btn-outline-secondary">
+                                <i class="fa-solid fa-pen-to-square me-1"></i> Edit
+                            </a>
+                            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ product.id }}">
+                                <i class="fa-solid fa-trash me-1"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Delete Modal -->
+            <div class="modal fade" id="deleteModal{{ product.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ product.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel{{ product.id }}">Confirm Delete</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete <strong>{{ product.name }}</strong>? This action cannot be undone.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <form action="{{ url_for('main.delete_product', id=product.id) }}" method="POST">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <i class="fa-solid fa-info-circle me-2"></i> You don't have any products yet. 
+        <a href="{{ url_for('main.add_product') }}" class="alert-link">Click here to add your first product</a>.
+    </div>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Populate category filter
+        const productCards = document.querySelectorAll('.product-card');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const categories = new Set();
+        
+        productCards.forEach(card => {
+            const category = card.getAttribute('data-category');
+            if (category) {
+                categories.add(category);
+            }
+        });
+        
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = category;
+            categoryFilter.appendChild(option);
+        });
+        
+        // Search and filter functionality
+        const productSearch = document.getElementById('productSearch');
+        const expirationFilter = document.getElementById('expirationFilter');
+        
+        function filterProducts() {
+            const searchTerm = productSearch.value.toLowerCase();
+            const categoryValue = categoryFilter.value;
+            const expirationValue = expirationFilter.value;
+            
+            productCards.forEach(card => {
+                const productTitle = card.querySelector('.card-title').textContent.toLowerCase();
+                const productBrand = card.querySelector('.card-subtitle').textContent.toLowerCase();
+                const productCategory = card.getAttribute('data-category');
+                const isExpired = card.getAttribute('data-expired') === 'true';
+                const isExpiringSoon = card.getAttribute('data-expiring-soon') === 'true';
+                
+                const matchesSearch = productTitle.includes(searchTerm) || productBrand.includes(searchTerm);
+                const matchesCategory = categoryValue === '' || productCategory === categoryValue;
+                let matchesExpiration = true;
+                
+                if (expirationValue === 'expired') {
+                    matchesExpiration = isExpired;
+                } else if (expirationValue === 'expiring-soon') {
+                    matchesExpiration = isExpiringSoon;
+                } else if (expirationValue === 'not-expired') {
+                    matchesExpiration = !isExpired;
+                }
+                
+                if (matchesSearch && matchesCategory && matchesExpiration) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        productSearch.addEventListener('input', filterProducts);
+        categoryFilter.addEventListener('change', filterProducts);
+        expirationFilter.addEventListener('change', filterProducts);
+    });
+</script>
+{% endblock %}

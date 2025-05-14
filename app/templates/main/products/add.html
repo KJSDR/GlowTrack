@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Add Product - GlowTrack{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fa-solid fa-plus me-2"></i>Add New Product
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form.name.label(class="form-label") }}
+                                {% if form.name.errors %}
+                                    {{ form.name(class="form-control is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.name(class="form-control", placeholder="e.g. Moisturizing Cream") }}
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.brand.label(class="form-label") }}
+                                {% if form.brand.errors %}
+                                    {{ form.brand(class="form-control is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.brand.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.brand(class="form-control", placeholder="e.g. CeraVe") }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.category_id.label(class="form-label") }}
+                            {% if form.category_id.errors %}
+                                {{ form.category_id(class="form-select is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.category_id.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.category_id(class="form-select") }}
+                            {% endif %}
+                            <div class="form-text">
+                                <a href="{{ url_for('main.add_category') }}" target="_blank">
+                                    <i class="fa-solid fa-plus me-1"></i>Add new category
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.description.label(class="form-label") }}
+                            {% if form.description.errors %}
+                                {{ form.description(class="form-control is-invalid", rows=3) }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.description.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.description(class="form-control", rows=3, placeholder="Optional product description") }}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form.purchase_date.label(class="form-label") }}
+                                {% if form.purchase_date.errors %}
+                                    {{ form.purchase_date(class="form-control is-invalid", type="date") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.purchase_date.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.purchase_date(class="form-control", type="date") }}
+                                {% endif %}
+                                <div class="form-text">When did you purchase this product?</div>
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.expiration_date.label(class="form-label") }}
+                                {% if form.expiration_date.errors %}
+                                    {{ form.expiration_date(class="form-control is-invalid", type="date") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.expiration_date.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.expiration_date(class="form-control", type="date") }}
+                                {% endif %}
+                                <div class="form-text">Check the product for expiration date</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form.date_opened.label(class="form-label") }}
+                                {% if form.date_opened.errors %}
+                                    {{ form.date_opened(class="form-control is-invalid", type="date") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.date_opened.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.date_opened(class="form-control", type="date") }}
+                                {% endif %}
+                                <div class="form-text">When did you first open this product?</div>
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.period_after_opening.label(class="form-label") }}
+                                {% if form.period_after_opening.errors %}
+                                    {{ form.period_after_opening(class="form-control is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.period_after_opening.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.period_after_opening(class="form-control", placeholder="e.g. 12") }}
+                                {% endif %}
+                                <div class="form-text">Look for the PAO symbol (open jar) on the product</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                {{ form.price.label(class="form-label") }}
+                                {% if form.price.errors %}
+                                    {{ form.price(class="form-control is-invalid", placeholder="e.g. 19.99") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.price.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.price(class="form-control", placeholder="e.g. 19.99") }}
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.image.label(class="form-label") }}
+                                {% if form.image.errors %}
+                                    {{ form.image(class="form-control is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.image.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.image(class="form-control") }}
+                                {% endif %}
+                                <div class="form-text">Upload a photo of your product (optional)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a href="{{ url_for('main.products') }}" class="btn btn-outline-secondary me-2">Cancel</a>
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
